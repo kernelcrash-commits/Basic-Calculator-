@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Futuristic FastAPI Calculator</title>
+<style>
+body {
+  margin:0; padding:0;
+  background: #0c0f19;
+  display:flex; justify-content:center; align-items:center; height:100vh;
+  font-family: 'Arial';
+}
+.container {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  color: cyan;
+  box-shadow: 0 0 25px cyan;
+}
+input, select, button {
+  width: 100%; padding: 10px; margin-top: 12px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid cyan;
+  color: cyan; border-radius: 6px;
+}
+button {
+  cursor: pointer; transition: .2s;
+}
+button:hover {
+  box-shadow: 0 0 10px cyan;
+}
+.result {
+  margin-top: 18px; font-size: 20px; text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>🚀 Neo-Calc</h2>
+<input id="a" type="number" placeholder="Enter number A">
+<select id="op">
+  <option>+</option>
+  <option>-</option>
+  <option>*</option>
+  <option>/</option>
+</select>
+<input id="b" type="number" placeholder="Enter number B">
+<button onclick="calc()">Calculate</button>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+async function calc() {
+  let a = document.getElementById("a").value;
+  let b = document.getElementById("b").value;
+  let op = document.getElementById("op").value;
+
+  let res = await fetch(`/calc?a=${a}&b=${b}&op=${op}`);
+  res = await res.json();
+
+  document.getElementById("result").innerHTML = res.result !== undefined 
+      ? `Result: ${res.result}` 
+      : res.error;
+}
+</script>
+
+</body>
+</html>
